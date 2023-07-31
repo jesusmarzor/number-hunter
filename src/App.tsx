@@ -1,8 +1,9 @@
 import useLocalStorage from "@/hooks/useLocalStorage"
-import { useEffect, useState } from "react"
-import tmi from "tmi.js"
 import { usernameDefault } from "@/utils/constants"
+import { useEffect, useState } from "react"
 import { User } from "@/utils/interfaces"
+import { UserType } from "@/utils/enums"
+import tmi from "tmi.js"
 
 const myChannel = "#jesusmarzor"
 
@@ -12,39 +13,39 @@ const App = () => {
   const { getUser, setUser, removeUser } = useLocalStorage()
 
   useEffect( () => {
-    removeUser("currentUser")
-    let winnerUser = getUser("winnerUser")
+    removeUser(UserType.current)
+    let winnerUser = getUser(UserType.winner)
     if (winnerUser && winnerUser.channel === myChannel) {
-      setWinnerUser(getUser("winnerUser"))
+      setWinnerUser(getUser(UserType.winner))
     }
     const client = tmi.client({
       channels: [myChannel]
     })
     client.connect()
     client.on('message', (channel, tags, message, self) => {
-      if(self || tags.username === getUser("currentUser")?.username) return;
+      if(self || tags.username === getUser(UserType.current)?.username) return;
       let newNumber = Number(message)
       if (newNumber) {
-        if ((newNumber === (Number(getUser("currentUser")?.number ?? 0) + 1))) {
-          newNumber > Number(getUser("winnerUser")?.number) && setWinnerUser(null)
+        if ((newNumber === (Number(getUser(UserType.current)?.number ?? 0) + 1))) {
+          newNumber > Number(getUser(UserType.winner)?.number) && setWinnerUser(null)
           let currentUser = {
             channel: channel,
             username: tags.username ?? usernameDefault,
             number: message
           }
           setCurrentUser(currentUser)
-          setUser("currentUser", currentUser)
+          setUser(UserType.current, currentUser)
         } else {
-          let winnerNumber = Number(getUser("winnerUser")?.number)
-          if (!winnerNumber || Number(getUser("currentUser")?.number) > winnerNumber) {
-            let winnerUser =  getUser("currentUser")
+          let winnerNumber = Number(getUser(UserType.winner)?.number)
+          if (!winnerNumber || Number(getUser(UserType.current)?.number) > winnerNumber) {
+            let winnerUser =  getUser(UserType.current)
             if (winnerUser) {
               setWinnerUser(winnerUser)
-              setUser("winnerUser", winnerUser)
+              setUser(UserType.winner, winnerUser)
             }
           }
           setCurrentUser(null)
-          removeUser("currentUser")
+          removeUser(UserType.current)
         }
       }
     });
