@@ -11,7 +11,7 @@ const App = () => {
           element={<Login />}
         />
         <Route
-          path="/:channel"
+          path="/:maxNumber/:channel"
           element={<Home/>}
         />
       </Routes>

@@ -17,6 +17,7 @@ const useLocalStorage = (): returnObject => {
     }
     
     const removeUser = (item: string) => {
+        console.log(item)
         localStorage.removeItem(item)
     }
 

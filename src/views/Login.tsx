@@ -7,7 +7,7 @@ export const Login = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        navigate(`/${channel}`)
+        navigate(`/100/${channel}`)
     }
 
     return (

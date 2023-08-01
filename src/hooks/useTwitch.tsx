@@ -1,20 +1,39 @@
 import { useEffect, useState } from "react"
 import useLocalStorage from "@/hooks/useLocalStorage"
-import { UserType } from "@/utils/enums"
+import { ResultType, UserType } from "@/utils/enums"
 import { User } from "@/utils/interfaces"
-import { leftZeros, usernameDefault } from "@/utils/constants"
+import { leftZeros, resultsNumber, usernameDefault } from "@/utils/constants"
 import tmi from "tmi.js"
+import getRandomNumber from "@/utils/getRandomNumber"
 
 interface props {
+    maxNumber: number
     channel: string
 }
 
-const useTwitch = ({ channel }: props) => {
+const useTwitch = ({ maxNumber, channel }: props) => {
     const [currentUser, setCurrentUser] = useState<User | null>(null)
     const [winnerUser, setWinnerUser] = useState<User | null>(null)
     const { getUser, setUser, removeUser } = useLocalStorage()
 
+    const saveCurrentUser = (channel: string, number: number, resultType: ResultType, username?: string) => {
+        let currentUser = {
+            channel: channel,
+            username: username ?? usernameDefault,
+            number: String(number),
+            resultType: resultType
+        }
+        setCurrentUser(currentUser)
+        setUser(UserType.current, currentUser)
+    }
+
+    const resetGame = () => {
+        setCurrentUser(null)
+        removeUser(UserType.current)
+    }
+
     useEffect(() => {
+        localStorage.setItem("randomNumber", String(getRandomNumber(maxNumber)))
         removeUser(UserType.current)
         let winnerUser = getUser(UserType.winner)
         if (winnerUser && winnerUser.channel === channel) {
@@ -25,29 +44,23 @@ const useTwitch = ({ channel }: props) => {
         })
         client.connect()
         client.on('message', (channel, tags, message, self) => {
-            if (self || tags.username === getUser(UserType.current)?.username) return;
+            let randomNumber = Number(localStorage.getItem("randomNumber"))
+            if (self || tags.username === getUser(UserType.current)?.username || !randomNumber) return;
             let newNumber = Number(message.replace(leftZeros, ''))
             if (newNumber || newNumber === 0) {
-                if ((newNumber === (Number(getUser(UserType.current)?.number ?? 0) + 1))) {
-                    newNumber > Number(getUser(UserType.winner)?.number) && setWinnerUser(null)
-                    let currentUser = {
-                        channel: channel,
-                        username: tags.username ?? usernameDefault,
-                        number: String(newNumber)
-                    }
-                    setCurrentUser(currentUser)
-                    setUser(UserType.current, currentUser)
+                let distance: number = Math.abs(randomNumber - newNumber)
+                if (distance === 0) {
+                    resetGame()
+                    localStorage.setItem("randomNumber", String(getRandomNumber(maxNumber)))
                 } else {
-                    let winnerNumber = Number(getUser(UserType.winner)?.number)
-                    if (!winnerNumber || channel !== getUser(UserType.winner)?.channel || Number(getUser(UserType.current)?.number) > winnerNumber) {
-                        let winnerUser = getUser(UserType.current)
-                        if (winnerUser) {
-                            setWinnerUser(winnerUser)
-                            setUser(UserType.winner, winnerUser)
+                    let resultType = ResultType.cold
+                    resultsNumber.forEach( ({type, minNumber, maxNumber}) => {
+                        if (distance >= minNumber && distance <= maxNumber) {
+                            resultType = type
                         }
-                    }
-                    setCurrentUser(null)
-                    removeUser(UserType.current)
+                    })
+                    console.log(tags.username, resultType)
+                    saveCurrentUser(channel, newNumber, resultType, tags.username )
                 }
             }
         });
