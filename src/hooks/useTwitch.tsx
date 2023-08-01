@@ -39,7 +39,7 @@ const useTwitch = ({ channel }: props) => {
                     setUser(UserType.current, currentUser)
                 } else {
                     let winnerNumber = Number(getUser(UserType.winner)?.number)
-                    if (!winnerNumber || Number(getUser(UserType.current)?.number) > winnerNumber) {
+                    if (!winnerNumber || channel !== getUser(UserType.winner)?.channel || Number(getUser(UserType.current)?.number) > winnerNumber) {
                         let winnerUser = getUser(UserType.current)
                         if (winnerUser) {
                             setWinnerUser(winnerUser)
