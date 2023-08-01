@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import useLocalStorage from "@/hooks/useLocalStorage"
 import { UserType } from "@/utils/enums"
 import { User } from "@/utils/interfaces"
-import { usernameDefault } from "@/utils/constants"
+import { leftZeros, usernameDefault } from "@/utils/constants"
 import tmi from "tmi.js"
 
 interface props {
@@ -26,14 +26,14 @@ const useTwitch = ({ channel }: props) => {
         client.connect()
         client.on('message', (channel, tags, message, self) => {
             if (self || tags.username === getUser(UserType.current)?.username) return;
-            let newNumber = Number(message)
-            if (newNumber) {
+            let newNumber = Number(message.replace(leftZeros, ''))
+            if (newNumber || newNumber === 0) {
                 if ((newNumber === (Number(getUser(UserType.current)?.number ?? 0) + 1))) {
                     newNumber > Number(getUser(UserType.winner)?.number) && setWinnerUser(null)
                     let currentUser = {
                         channel: channel,
                         username: tags.username ?? usernameDefault,
-                        number: message
+                        number: String(newNumber)
                     }
                     setCurrentUser(currentUser)
                     setUser(UserType.current, currentUser)
