@@ -60,6 +60,8 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
     }
 
     const resetGame = () => {
+        setLastValue(null)
+        setResultType(null)
         setUserList(null)
         removeUsers(DataType.users)
     }
@@ -82,9 +84,10 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
             let currentUser = userList?.users.filter( ({username}) => username === tags?.username)[0]
             if (self || tags.username === lastUser?.username || currentUser?.lifes <= 0 || !randomNumber) return;
             let newNumber = Number(message.replace(leftZeros, ''))
-            if (newNumber >= 0) {
+            if (newNumber > 0 && newNumber <= maxNumber) {
                 let distance: number = Math.abs(randomNumber - newNumber)
                 if (distance === 0) {
+                    setLastValue(null)
                     setResultType(ResultType.correct)
                     saveWinnerUser(channel, tags.username)
                     resetGame()
@@ -102,7 +105,7 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
         });
     }, [])
 
-    return { userList, winnerUserList, lastValue, resultType }
+    return { userList, winnerUserList, lastValue, resultType, resetGame }
 }
 
 export default useTwitch

@@ -21,5 +21,5 @@ export const resultsNumber: NumberResult[] = [
     }
 ]
 
-export const defaultLifes = 3
-export const defaultMaxValue = 10
+export const defaultLifes = 10
+export const defaultMaxValue = 100
