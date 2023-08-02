@@ -71,6 +71,7 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
         setResultIcon(null)
         setUserList(null)
         removeUsers(DataType.users)
+        localStorage.setItem("randomNumber", String(getRandomNumber(maxNumber)))
     }
 
     useEffect(() => {
@@ -97,16 +98,11 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
                     setLastValue(null)
                     setResultIcon(null)
                     saveWinnerUser(channel, tags.username)
-                    resetGame()
-                    localStorage.setItem("randomNumber", String(getRandomNumber(maxNumber)))
+                    resetRound()
                 } else {
                     setLastValue(newNumber)
                     resultsNumber.forEach( ({icon, minNumber: min, maxNumber: max}) => {
-                        console.log(icon, min, max)
-                        if (distance >= min && distance <= (max ?? maxNumber)) {
-                            console.log(icon)
-                            setResultIcon(icon)
-                        }
+                        (distance >= min && distance <= (max ?? maxNumber)) && setResultIcon(icon)
                     })
                     saveCurrentUser(channel, tags.username )
                 }
