@@ -2,8 +2,8 @@ import useTwitch from "@/hooks/useTwitch"
 import { useParams } from "react-router-dom";
 
 export const Home = () => {
-    let { maxNumber, channel } = useParams();
-    const { userList, winnerUserList, lastValue, resultType } = useTwitch({maxNumber: Number(maxNumber), channel: `#${channel}`})
+    let { channel, maxNumber, lifes } = useParams();
+    const { userList, winnerUserList, lastValue, resultType } = useTwitch({maxNumber: Number(maxNumber), channel: `#${channel}`, lifes: Number(lifes)})
 
     return (
         <div className="w-full min-h-screen bg-black flex justify-center items-center text-white">

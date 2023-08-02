@@ -20,3 +20,6 @@ export const resultsNumber: NumberResult[] = [
         minNumber: 11
     }
 ]
+
+export const defaultLifes = 3
+export const defaultMaxValue = 10

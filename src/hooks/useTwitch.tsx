@@ -7,11 +7,12 @@ import tmi from "tmi.js"
 import getRandomNumber from "@/utils/getRandomNumber"
 
 interface props {
-    maxNumber: number
     channel: string
+    maxNumber: number
+    lifes: number
 }
 
-const useTwitch = ({ maxNumber, channel }: props) => {
+const useTwitch = ({ channel, maxNumber, lifes }: props) => {
     const [lastValue, setLastValue] = useState<number | null>(null)
     const [userList, setUserList] = useState<UserList<User[]> | null>(null)
     const [resultType, setResultType] = useState<ResultType | null>(null)
@@ -50,7 +51,7 @@ const useTwitch = ({ maxNumber, channel }: props) => {
         } else {
             currentUser = {
                 username: username ?? usernameDefault,
-                lifes: 3 - 1
+                lifes: lifes - 1
             }
         }
         list.users.push(currentUser)
