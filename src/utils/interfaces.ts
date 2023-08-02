@@ -1,4 +1,4 @@
-import { ResultType } from "./enums"
+import { LucideIcon } from "lucide-react"
 
 export interface UserList<T> {
     channel: string,
@@ -16,7 +16,7 @@ export interface WinnerUser {
 }
 
 export interface NumberResult {
-    type: ResultType
+    icon: LucideIcon
     minNumber: number
     maxNumber?: number
 }

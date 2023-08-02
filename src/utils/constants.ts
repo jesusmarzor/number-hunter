@@ -1,4 +1,4 @@
-import { ResultType } from "./enums"
+import { Flame, Snowflake, Sun, SunSnow } from "lucide-react"
 import { NumberResult } from "./interfaces"
 
 export const usernameDefault = "anonymous"
@@ -6,17 +6,22 @@ export const leftZeros = /^0+/
 
 export const resultsNumber: NumberResult[] = [
     {
-        type: ResultType.hot,
-        minNumber: 0,
+        icon: Flame,
+        minNumber: 1,
+        maxNumber: 2
+    },
+    {
+        icon: Sun,
+        minNumber: 3,
         maxNumber: 5
     },
     {
-        type: ResultType.warm,
+        icon: SunSnow,
         minNumber: 6,
         maxNumber: 10
     },
     {
-        type: ResultType.cold,
+        icon: Snowflake,
         minNumber: 11
     }
 ]

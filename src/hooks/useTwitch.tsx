@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import useLocalStorage from "@/hooks/useLocalStorage"
-import { ResultType, DataType } from "@/utils/enums"
+import { DataType } from "@/utils/enums"
 import { User, UserList, WinnerUser } from "@/utils/interfaces"
 import { leftZeros, resultsNumber, usernameDefault } from "@/utils/constants"
 import tmi from "tmi.js"
 import getRandomNumber from "@/utils/getRandomNumber"
+import { LucideIcon } from "lucide-react"
 
 interface props {
     channel: string
@@ -15,7 +16,7 @@ interface props {
 const useTwitch = ({ channel, maxNumber, lifes }: props) => {
     const [lastValue, setLastValue] = useState<number | null>(null)
     const [userList, setUserList] = useState<UserList<User[]> | null>(null)
-    const [resultType, setResultType] = useState<ResultType | null>(null)
+    const [ResultIcon, setResultIcon] = useState<LucideIcon | null>(null)
     const [winnerUserList, setWinnerUserList] = useState<UserList<WinnerUser[]> | null>(null)
     const { getUsers, setUsers, removeUsers } = useLocalStorage()
 
@@ -60,8 +61,14 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
     }
 
     const resetGame = () => {
+        resetRound()
+        setWinnerUserList(null)
+        removeUsers(DataType.winnerUsers)
+    }
+
+    const resetRound = () => {
         setLastValue(null)
-        setResultType(null)
+        setResultIcon(null)
         setUserList(null)
         removeUsers(DataType.users)
     }
@@ -88,15 +95,17 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
                 let distance: number = Math.abs(randomNumber - newNumber)
                 if (distance === 0) {
                     setLastValue(null)
-                    setResultType(ResultType.correct)
+                    setResultIcon(null)
                     saveWinnerUser(channel, tags.username)
                     resetGame()
                     localStorage.setItem("randomNumber", String(getRandomNumber(maxNumber)))
                 } else {
                     setLastValue(newNumber)
-                    resultsNumber.forEach( ({type, minNumber: min, maxNumber: max}) => {
+                    resultsNumber.forEach( ({icon, minNumber: min, maxNumber: max}) => {
+                        console.log(icon, min, max)
                         if (distance >= min && distance <= (max ?? maxNumber)) {
-                            setResultType(type)
+                            console.log(icon)
+                            setResultIcon(icon)
                         }
                     })
                     saveCurrentUser(channel, tags.username )
@@ -105,7 +114,7 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
         });
     }, [])
 
-    return { userList, winnerUserList, lastValue, resultType, resetGame }
+    return { userList, winnerUserList, lastValue, ResultIcon, resetGame, resetRound }
 }
 
 export default useTwitch
