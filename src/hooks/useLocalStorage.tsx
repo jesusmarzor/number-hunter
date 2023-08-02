@@ -1,27 +1,26 @@
-import { User } from "@/utils/interfaces"
+import { User, UserList, WinnerUser } from "@/utils/interfaces"
 
 interface returnObject {
-    getUser: (item: string) => (User | null)
-    setUser: (item: string, user: User) => void
-    removeUser: (item: string) => void
+    getUsers: (dataType: string) => (UserList<User[] | WinnerUser[]> | null)
+    setUsers: (dataType: string, users: UserList<User[] | WinnerUser[]>) => void
+    removeUsers: (dataType: string) => void
 }
 
 const useLocalStorage = (): returnObject => {
-    const getUser = (item: string): (User | null) => {
-        let user = localStorage.getItem(item)
-        return user ? JSON.parse(user) : null
+    const getUsers = (dataType: string): (UserList<User[] | WinnerUser[]> | null) => {
+        let users = localStorage.getItem(dataType)
+        return users ? JSON.parse(users) : null
     }
 
-    const setUser = (item: string, user: User) => {
-        localStorage.setItem(item, JSON.stringify(user))
+    const setUsers = (dataType: string, users: UserList<User[] | WinnerUser[]>) => {
+        localStorage.setItem(dataType, JSON.stringify(users))
     }
     
-    const removeUser = (item: string) => {
-        console.log(item)
-        localStorage.removeItem(item)
+    const removeUsers = (dataType: string) => {
+        localStorage.removeItem(dataType)
     }
 
-    return { getUser, setUser, removeUser }
+    return { getUsers, setUsers, removeUsers }
 }
 
 export default useLocalStorage

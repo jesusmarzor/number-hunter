@@ -14,5 +14,9 @@ export const resultsNumber: NumberResult[] = [
         type: ResultType.warm,
         minNumber: 6,
         maxNumber: 10
+    },
+    {
+        type: ResultType.cold,
+        minNumber: 11
     }
 ]
