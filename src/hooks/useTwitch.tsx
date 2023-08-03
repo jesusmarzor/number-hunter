@@ -7,6 +7,7 @@ import tmi from "tmi.js"
 import getRandomNumber from "@/utils/getRandomNumber"
 import { LucideIcon } from "lucide-react"
 import { PropertiesConsumer } from "@/contexts/propertiesContext"
+import getLastIndex from "@/utils/getLastIndex"
 
 interface props {
     channel: string
@@ -21,8 +22,8 @@ const useTwitch = ({ channel }: props) => {
     const {lifes, maxNumber} = PropertiesConsumer()
 
     const saveWinnerUser = (channel: string, username?: string) => {
-        let users = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
-        let list = users?.channel === channel ? users : {channel: channel, users: []}
+        const users = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
+        const list = users?.channel === channel ? users : {channel: channel, users: []}
         if (list.users.filter( ({username: nick}) => nick === username).length !== 0) {
             list.users = list.users.map( user => {
                 if (user.username === username) {
@@ -38,13 +39,12 @@ const useTwitch = ({ channel }: props) => {
                 }
             )
         }
-        setWinnerUserList(list)
-        setUsers(DataType.winnerUsers, list)
+        setData(DataType.winnerUsers, list)
     }
 
     const saveCurrentUser = (channel: string, username?: string) => {
-        let users = getUsers(DataType.users) as UserList<User[]>
-        let list = users?.channel === channel ? users : {channel: channel, users: []}
+        const users = getUsers(DataType.users) as UserList<User[]>
+        const list = users?.channel === channel ? users : {channel: channel, users: []}
         let currentUser = list.users.filter( ({username: nick}) => nick === username)[0]
         if (currentUser) {
             list.users = list.users.filter(({username: nick}) => nick !== username)
@@ -56,47 +56,69 @@ const useTwitch = ({ channel }: props) => {
             }
         }
         list.users.push(currentUser)
-        setUserList(list)
-        setUsers(DataType.users, list)
+        setData(DataType.users, list)
+    }
+
+    const setData = (dataType: DataType, data: UserList<User[] | WinnerUser[]>) => {
+        setUsers(dataType, data)
+        switch (dataType) {
+            case DataType.users:
+                setUserList(data as UserList<User[]>)
+                break
+
+            case DataType.winnerUsers:
+                setWinnerUserList(data as UserList<WinnerUser[]>)
+        }
+    }
+
+    const removeData = (dataType: DataType) => {
+        removeUsers(dataType)
+        switch (dataType) {
+            case DataType.users:
+                setUserList(null)
+                break
+                
+            case DataType.winnerUsers:
+                setWinnerUserList(null)
+        }
     }
 
     const resetGame = () => {
         resetRound()
-        setWinnerUserList(null)
-        removeUsers(DataType.winnerUsers)
+        removeData(DataType.winnerUsers)
     }
 
     const resetRound = () => {
         setLastValue(null)
         setResultIcon(null)
-        setUserList(null)
-        removeUsers(DataType.users)
+        removeData(DataType.users)
         localStorage.setItem("randomNumber", String(getRandomNumber(maxNumber)))
     }
 
-    useEffect(() => {
-        localStorage.setItem("randomNumber", String(getRandomNumber(maxNumber)))
-        removeUsers(DataType.users)
-        let winnerUsers = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
+    const loadWinners = () => {
+        const winnerUsers = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
         if (winnerUsers && winnerUsers.users.length !== 0 && winnerUsers.channel === channel) {
             setWinnerUserList(winnerUsers)
         }
+    }
+
+    useEffect(() => {
+        resetRound()
+        loadWinners()
         const client = tmi.client({
             channels: [channel]
         })
         client.connect()
         client.on('message', (channel, tags, message, self) => {
-            let randomNumber = Number(localStorage.getItem("randomNumber"))
-            let userList = getUsers(DataType.users) as UserList<User[]>
-            let lastUser = userList?.users[userList.users.length - 1]
-            let currentUser = userList?.users.filter( ({username}) => username === tags?.username)[0]
+            const randomNumber = Number(localStorage.getItem("randomNumber"))
+            const userList = getUsers(DataType.users) as UserList<User[]>
+            const lastUser = userList?.users[getLastIndex(userList.users)]
+            const currentUser = userList?.users.filter( ({username}) => username === tags?.username)[0]
             if (self || tags.username === lastUser?.username || currentUser?.lifes <= 0 || !randomNumber) return;
-            let newNumber = Number(message.replace(leftZeros, ''))
+            const newNumber = Number(message.replace(leftZeros, ''))
             if (newNumber >= defaultMinNumber && newNumber <= maxNumber) {
-                let distance: number = Math.abs(randomNumber - newNumber)
+                const distance: number = Math.abs(randomNumber - newNumber)
                 if (distance === 0) {
-                    setLastValue(null)
-                    setResultIcon(null)
                     saveWinnerUser(channel, tags.username)
                     resetRound()
                 } else {

@@ -6,7 +6,7 @@ import { PropertiesProvider } from "./contexts/propertiesContext"
 const App = () => {
   return (
     <main className="w-full min-h-screen flex justify-center items-center font-[EduSABeginner]">
-      <div className="w-96 h-96 rounded bg-[#F3F3F3] overflow-hidden">
+      <div className="w-96 h-96 flex flex-col rounded bg-[#F3F3F3] overflow-hidden p-2">
         <PropertiesProvider>
           <BrowserRouter>
             <Routes>

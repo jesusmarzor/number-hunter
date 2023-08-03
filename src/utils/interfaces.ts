@@ -20,3 +20,10 @@ export interface NumberResult {
     minNumber: number
     maxNumber?: number
 }
+
+export interface Properties {
+    lifes: number
+    setLifes: React.Dispatch<React.SetStateAction<number>>
+    maxNumber: number
+    setMaxNumber: React.Dispatch<React.SetStateAction<number>>
+}
