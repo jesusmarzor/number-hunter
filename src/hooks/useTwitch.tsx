@@ -2,23 +2,23 @@ import { useEffect, useState } from "react"
 import useLocalStorage from "@/hooks/useLocalStorage"
 import { DataType } from "@/utils/enums"
 import { User, UserList, WinnerUser } from "@/utils/interfaces"
-import { leftZeros, resultsNumber, usernameDefault } from "@/utils/constants"
+import { defaultMinNumber, leftZeros, resultsNumber, usernameDefault } from "@/utils/constants"
 import tmi from "tmi.js"
 import getRandomNumber from "@/utils/getRandomNumber"
 import { LucideIcon } from "lucide-react"
+import { PropertiesConsumer } from "@/contexts/propertiesContext"
 
 interface props {
     channel: string
-    maxNumber: number
-    lifes: number
 }
 
-const useTwitch = ({ channel, maxNumber, lifes }: props) => {
+const useTwitch = ({ channel }: props) => {
     const [lastValue, setLastValue] = useState<number | null>(null)
     const [userList, setUserList] = useState<UserList<User[]> | null>(null)
     const [ResultIcon, setResultIcon] = useState<LucideIcon | null>(null)
     const [winnerUserList, setWinnerUserList] = useState<UserList<WinnerUser[]> | null>(null)
     const { getUsers, setUsers, removeUsers } = useLocalStorage()
+    const {lifes, maxNumber} = PropertiesConsumer()
 
     const saveWinnerUser = (channel: string, username?: string) => {
         let users = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
@@ -92,7 +92,7 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
             let currentUser = userList?.users.filter( ({username}) => username === tags?.username)[0]
             if (self || tags.username === lastUser?.username || currentUser?.lifes <= 0 || !randomNumber) return;
             let newNumber = Number(message.replace(leftZeros, ''))
-            if (newNumber > 0 && newNumber <= maxNumber) {
+            if (newNumber >= defaultMinNumber && newNumber <= maxNumber) {
                 let distance: number = Math.abs(randomNumber - newNumber)
                 if (distance === 0) {
                     setLastValue(null)
@@ -104,7 +104,7 @@ const useTwitch = ({ channel, maxNumber, lifes }: props) => {
                     resultsNumber.forEach( ({icon, minNumber: min, maxNumber: max}) => {
                         (distance >= min && distance <= (max ?? maxNumber)) && setResultIcon(icon)
                     })
-                    saveCurrentUser(channel, tags.username )
+                    saveCurrentUser(channel, tags.username)
                 }
             }
         });
