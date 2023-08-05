@@ -3,11 +3,12 @@ import useLocalStorage from "@/hooks/useLocalStorage"
 import { DataType } from "@/utils/enums"
 import { User, UserList, WinnerUser } from "@/utils/interfaces"
 import { defaultMinNumber, leftZeros, resultsNumber, usernameDefault } from "@/utils/constants"
-import tmi from "tmi.js"
 import getRandomNumber from "@/utils/getRandomNumber"
 import { LucideIcon } from "lucide-react"
 import { PropertiesConsumer } from "@/contexts/propertiesContext"
 import getLastIndex from "@/utils/getLastIndex"
+import tmi from "tmi.js"
+import { ClientConsumer } from "@/contexts/clientContext"
 
 interface props {
     channel: string
@@ -20,6 +21,7 @@ const useTwitch = ({ channel }: props) => {
     const [winnerUserList, setWinnerUserList] = useState<UserList<WinnerUser[]> | null>(null)
     const { getUsers, setUsers, removeUsers } = useLocalStorage()
     const {lifes, maxNumber} = PropertiesConsumer()
+    const {connectClient} = ClientConsumer()
 
     const saveWinnerUser = (channel: string, username?: string) => {
         const users = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
@@ -103,34 +105,32 @@ const useTwitch = ({ channel }: props) => {
     }
 
     useEffect(() => {
+        connectClient(channel, clientCompletion)
         resetRound()
         loadWinners()
-        const client = tmi.client({
-            channels: [channel]
-        })
-        client.connect()
-        client.on('message', (channel, tags, message, self) => {
-            const randomNumber = Number(localStorage.getItem("randomNumber"))
-            const userList = getUsers(DataType.users) as UserList<User[]>
-            const lastUser = userList?.users[getLastIndex(userList.users)]
-            const currentUser = userList?.users.filter( ({username}) => username === tags?.username)[0]
-            if (self || tags.username === lastUser?.username || currentUser?.lifes <= 0 || !randomNumber) return;
-            const newNumber = Number(message.replace(leftZeros, ''))
-            if (newNumber >= defaultMinNumber && newNumber <= maxNumber) {
-                const distance: number = Math.abs(randomNumber - newNumber)
-                if (distance === 0) {
-                    saveWinnerUser(channel, tags.username)
-                    resetRound()
-                } else {
-                    setLastValue(newNumber)
-                    resultsNumber.forEach( ({icon, minNumber: min, maxNumber: max}) => {
-                        (distance >= min && distance <= (max ?? maxNumber)) && setResultIcon(icon)
-                    })
-                    saveCurrentUser(channel, tags.username)
-                }
-            }
-        });
     }, [])
+
+    const clientCompletion = (channel: string, tags: tmi.ChatUserstate, message: string, self: boolean) => {
+        const randomNumber = Number(localStorage.getItem("randomNumber"))
+        const userList = getUsers(DataType.users) as UserList<User[]>
+        const lastUser = userList?.users[getLastIndex(userList.users)]
+        const currentUser = userList?.users.filter( ({username}) => username === tags?.username)[0]
+        if (self || tags.username === lastUser?.username || currentUser?.lifes <= 0 || !randomNumber) return;
+        const newNumber = Number(message.replace(leftZeros, ''))
+        if (newNumber >= defaultMinNumber && newNumber <= maxNumber) {
+            const distance: number = Math.abs(randomNumber - newNumber)
+            if (distance === 0) {
+                saveWinnerUser(channel, tags.username)
+                resetRound()
+            } else {
+                setLastValue(newNumber)
+                resultsNumber.forEach( ({icon, minNumber: min, maxNumber: max}) => {
+                    (distance >= min && distance <= (max ?? maxNumber)) && setResultIcon(icon)
+                })
+                saveCurrentUser(channel, tags.username)
+            }
+        }
+    }
 
     return { userList, winnerUserList, lastValue, ResultIcon, resetGame, resetRound }
 }
