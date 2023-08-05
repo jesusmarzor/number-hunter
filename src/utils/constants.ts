@@ -30,3 +30,5 @@ export const defaultLifes = 3
 export const defaultMaxNumber = 10
 export const defaultMinNumber = 1
 export const maxNumWinners = 3
+export const appName = "Number hunt"
+export const creatorNick = "@jesusmarzor"
