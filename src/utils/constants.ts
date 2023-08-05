@@ -1,5 +1,5 @@
 import { Flame, Snowflake, Sun, SunSnow } from "lucide-react"
-import { NumberResult } from "./interfaces"
+import { NumberResult } from "@/utils/interfaces"
 
 export const usernameDefault = "anonymous"
 export const leftZeros = /^0+/

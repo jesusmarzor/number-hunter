@@ -1,4 +1,6 @@
 import { LucideIcon, RefreshCcw, RotateCcw } from "lucide-react"
+import { Button } from "@/components/ui/Button"
+import { ButtonShape } from "@/utils/enums"
 
 interface props {
     lastValue: number | null
@@ -17,12 +19,12 @@ export const LastNumber: React.FC<props> = ({lastValue, ResultIcon, resetGame, r
                     <p className="font-bold text-3xl text-center">¿Alguien se anima?</p>
                 }
             </div>
-            <button onClick={() => resetGame()} className="absolute bottom-1 left-1 bg-pink-default w-12 h-12 flex justify-center items-center rounded-full text-white-medium">
+            <Button shape={ButtonShape.circle} onClick={() => resetGame()} classes="absolute bottom-1 left-1 bg-pink-default">
                 <RefreshCcw size={23}/>
-            </button>
-            <button onClick={() => resetRound()} className="absolute bottom-1 right-1 bg-pink-default w-12 h-12 flex justify-center items-center rounded-full text-white-medium">
+            </Button>
+            <Button shape={ButtonShape.circle} onClick={() => resetRound()} classes="absolute bottom-1 right-1 bg-pink-default">
                 <RotateCcw size={23}/>
-            </button>
+            </Button>
             <div className="absolute -bottom-6 left-0 right-0 m-auto bg-white-medium w-12 h-12 flex justify-center items-center rounded-full bg- border-4 border-pink-default">
                 { ResultIcon && <ResultIcon className="stroke-pink-default"/> }
             </div>

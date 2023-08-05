@@ -7,3 +7,13 @@ export enum InputType {
     text = "text",
     number = "number"
 }
+
+export enum ButtonType {
+    button = "button",
+    submit = "submit"
+}
+
+export enum ButtonShape {
+    circle,
+    rectangle
+}

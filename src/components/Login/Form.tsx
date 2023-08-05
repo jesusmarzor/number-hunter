@@ -1,7 +1,8 @@
-import { InputType } from "@/utils/enums"
-import { Input } from "../ui/Input"
+import { Input } from "@/components/ui/Input"
 import useForm from "@/hooks/useForm";
 import { PropertiesConsumer } from "@/contexts/propertiesContext";
+import { Button } from "@/components/ui/Button";
+import { ButtonType, InputType } from "@/utils/enums";
 
 export const Form = () => {
     const {lifes, setLifes, maxNumber, setMaxNumber} = PropertiesConsumer()
@@ -11,7 +12,7 @@ export const Form = () => {
             <Input title="Canal de twitch" name="channel" text={channel} setText={setChannel}  error={errors.channel}/>
             <Input type={InputType.number} title="Number of lifes to users" name="lifes" text={lifes} setText={(text) => changeNumber(setLifes, text)} error={errors.lifes}/>
             <Input type={InputType.number} title="Max range number" name="maxNumber" text={maxNumber} setText={(text) => changeNumber(setMaxNumber, text)}  error={errors.maxNumber}/>
-            <button className="bg-blue-light-default py-1 rounded text-white-default active:scale-98 transition-transform duration-300 mt-1" type="submit">Comenzar</button>
+            <Button type={ButtonType.submit} classes="bg-blue-light-default mt-1">Comenzar</Button>
         </form>
     )
 }

@@ -1,5 +1,5 @@
 import { FormErrors } from "@/utils/interfaces"
-import { defaultMinNumber, minLifes } from "./constants"
+import { defaultMinNumber, minLifes } from "@/utils/constants"
 
 export default (channel: string, lifes: number, maxNumber: number, setError: (errors: FormErrors) => void): boolean => {
     let errors: FormErrors = {}
