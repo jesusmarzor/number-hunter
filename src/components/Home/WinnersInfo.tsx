@@ -7,7 +7,7 @@ interface props {
 }
 export const WinnersInfo: React.FC<props> = ({winnerUsers}) => {
     return (
-        <ul className="flex justify-center items-center gap-2 p-2 py-4">
+        <ul className="flex justify-center items-center gap-2 p-2 py-4 h-full">
             {
                 winnerUsers.sort((a,b) => (a.points > b.points) ? -1 : 1).slice(0, maxNumWinners).map( ({username, points}) => (
                         <li key={username} className={`flex justify-center items-center font-medium w-30`}>
