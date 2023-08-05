@@ -1,0 +1,20 @@
+{
+    "common": {
+        "start": "Start"
+    },
+    "form": {
+        "channel": {
+            "title": "Twitch channel",
+            "error": "Introduce a Twitch channel"
+        },
+        "lifes": {
+            "title": "Lives of the users",
+            "error": "Introduce a number of lives greater than @"
+        },
+        "maxNumber": {
+            "title": "Maximum random number",
+            "error": "Introduce a number greather than @"
+        }
+    },
+    "footer": "Created by <nick>{{nick}}</nick> with <icon/> for <jam>{{jam}}</jam>"
+}

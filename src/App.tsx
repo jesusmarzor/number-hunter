@@ -3,6 +3,7 @@ import { Home } from "@/views/Home"
 import { Login } from "@/views/Login"
 import { PropertiesProvider } from "@/contexts/propertiesContext"
 import { ClientProvider } from "@/contexts/clientContext"
+import "@/config/i18n"
 
 const App = () => {
   return (

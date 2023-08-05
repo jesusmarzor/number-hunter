@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import useLocalStorage from "@/hooks/useLocalStorage"
 import { DataType } from "@/utils/enums"
 import { User, UserList, WinnerUser } from "@/utils/interfaces"
-import { defaultMinNumber, leftZeros, resultsNumber, usernameDefault } from "@/utils/constants"
+import { minNumber, leftZeros, resultsNumber, usernameDefault } from "@/utils/constants"
 import getRandomNumber from "@/utils/getRandomNumber"
 import { LucideIcon } from "lucide-react"
 import { PropertiesConsumer } from "@/contexts/propertiesContext"
@@ -117,7 +117,7 @@ const useTwitch = ({ channel }: props) => {
         const currentUser = userList?.users.filter( ({username}) => username === tags?.username)[0]
         if (self || tags.username === lastUser?.username || currentUser?.lifes <= 0 || !randomNumber) return;
         const newNumber = Number(message.replace(leftZeros, ''))
-        if (newNumber >= defaultMinNumber && newNumber <= maxNumber) {
+        if (newNumber >= minNumber && newNumber <= maxNumber) {
             const distance: number = Math.abs(randomNumber - newNumber)
             if (distance === 0) {
                 saveWinnerUser(channel, tags.username)

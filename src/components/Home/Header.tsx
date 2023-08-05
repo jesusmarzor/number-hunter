@@ -1,5 +1,5 @@
 import { PropertiesConsumer } from "@/contexts/propertiesContext";
-import { defaultMinNumber } from "@/utils/constants";
+import { minNumber } from "@/utils/constants";
 import { Heart, LogOut, Twitch } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export const Header: React.FC<props> = ({channel}) => {
                 <LogOut size={15}/>
             </button>
             <ul className="flex justify-center items-center gap-3">
-                <li>{defaultMinNumber} - {maxNumber}</li>
+                <li>{minNumber} - {maxNumber}</li>
                 <li className="flex justify-center items-center gap-1"><Heart className="fill-red-default" size={15}/> {lifes}</li>
                 <li className="flex justify-center items-center gap-1"><Twitch size={15} className="stroke-twitch fill-white-default"/> {channel}</li>
             </ul>
