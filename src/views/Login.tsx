@@ -1,5 +1,5 @@
 import { PropertiesConsumer } from "@/contexts/propertiesContext";
-import { appName, creatorNick } from "@/utils/constants";
+import { appName, creator, jam } from "@/utils/constants";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png"
@@ -35,7 +35,7 @@ export const Login = () => {
                 <button type="submit">Comenzar</button>
             </form>
             <footer>
-                <p>Created by {creatorNick} with <Heart className="inline w-4"/> for <a href="https://itch.io/jam/numerica-twitch-jam">Numerica Twitch Jam</a></p>
+                <p>Created by <a className="text-blue-light-default border-blue-light-default hover:border-b" href={creator.url} target="_blank">{creator.nick}</a> with <Heart className="inline w-4 fill-red-default stroke-red-default"/> for <a className="text-blue-light-default border-blue-light-default hover:border-b" href={jam.url} target="_blank">{jam.name}</a></p>
             </footer>
         </section>
     )

@@ -31,4 +31,11 @@ export const defaultMaxNumber = 10
 export const defaultMinNumber = 1
 export const maxNumWinners = 3
 export const appName = "Number hunt"
-export const creatorNick = "@jesusmarzor"
+export const jam = {
+    name: "Numerica Twitch Jam",
+    url: "https://itch.io/jam/numerica-twitch-jam"
+}
+export const creator = {
+    nick: "@jesusmarzor",
+    url: "https://jesusmarzor.vercel.app"
+}
