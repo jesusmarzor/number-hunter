@@ -33,3 +33,9 @@ export interface Client {
     connectClient: (channel: string, completion: (channel: string, tags: tmi.ChatUserstate, message: string, self: boolean) => void) => void
     disconnectClient: () => void
 }
+
+export interface FormErrors {
+    channel?: string
+    lifes?: string
+    maxNumber?: string
+}

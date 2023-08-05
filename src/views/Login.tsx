@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png"
 import { Heart } from "lucide-react";
 import { Input } from "@/components/ui/Input";
-import { FormErrors, InputType } from "@/utils/enums";
+import { InputType } from "@/utils/enums";
+import validationForm from "@/utils/validationForm";
+import { FormErrors } from "@/utils/interfaces";
 
 export const Login = () => {
     const navigate = useNavigate();
@@ -15,7 +17,7 @@ export const Login = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        navigate(channel.toLowerCase())
+        validationForm(channel, lifes, maxNumber, setErrors) && navigate(channel.toLowerCase())
     }
 
     const changeNumber = (setNumber: React.Dispatch<React.SetStateAction<number>>, text: string) => {
@@ -28,11 +30,11 @@ export const Login = () => {
                 <img src={logo} className="w-20 object-cover"/>
                 <h1 className="text-3xl font-medium">{appName}</h1>
             </header>
-            <form className="flex flex-col gap-3 w-56" onSubmit={ e => handleSubmit(e)}>
+            <form className="flex flex-col gap-2 w-56" onSubmit={ e => handleSubmit(e)}>
                 <Input title="Canal de twitch" name="channel" text={channel} setText={setChannel}  error={errors.channel}/>
-                <Input type={InputType.number} title="Number of lifes to users" name="text" text={lifes} setText={(text) => changeNumber(setLifes, text)} error={errors.lifes}/>
-                <Input type={InputType.number} title="Max range number" name="text" text={maxNumber} setText={(text) => changeNumber(setMaxNumber, text)}  error={errors.maxNumber}/>
-                <button className="bg-blue-light-default py-1 rounded text-white-default active:scale-98 transition-transform duration-300" type="submit">Comenzar</button>
+                <Input type={InputType.number} title="Number of lifes to users" name="lifes" text={lifes} setText={(text) => changeNumber(setLifes, text)} error={errors.lifes}/>
+                <Input type={InputType.number} title="Max range number" name="maxNumber" text={maxNumber} setText={(text) => changeNumber(setMaxNumber, text)}  error={errors.maxNumber}/>
+                <button className="bg-blue-light-default py-1 rounded text-white-default active:scale-98 transition-transform duration-300 mt-1" type="submit">Comenzar</button>
             </form>
             <footer>
                 <p>Created by <a className="text-blue-light-default border-blue-light-default hover:border-b" href={creator.url} target="_blank">{creator.nick}</a> with <Heart className="inline w-4 fill-red-default stroke-red-default"/> for <a className="text-blue-light-default border-blue-light-default hover:border-b" href={jam.url} target="_blank">{jam.name}</a></p>
