@@ -5,7 +5,41 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        eduSABeginner: "EduSABeginner"
+      },
+      fontSize: {
+        "2xs": "0.5rem"
+      },
+      colors: {
+        red: {
+          default: "#ff4343"
+        },
+        white: {
+          default: "#ffffff",
+          medium: "#f3f3f3"
+        },
+        blue: {
+          light: {
+            default: "#61c0bf"
+          }
+        },
+        pink: {
+          default: "#ffb6ff"
+        },
+        yellow: {
+          default: "yellow"
+        },
+        twitch: "#6441a5"
+      },
+      width: {
+        30: "30%"
+      },
+      height: {
+        "5percent": "5%"
+      }
+    },
   },
   plugins: [],
 }

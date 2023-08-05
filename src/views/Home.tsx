@@ -11,16 +11,16 @@ export const Home = () => {
     const {  userList, winnerUserList, lastValue, ResultIcon, resetRound, resetGame } = useTwitch({channel: `#${channel}`})
     return (
         <>
-            <header className="h-[5%]">
+            <header className="h-5percent">
                 <Header channel={channel}/>
             </header>
-            <div className="h-[20%]">
+            <div className="h-1/5">
                 { winnerUserList && <WinnersInfo winnerUsers={winnerUserList.users}/> }
             </div>
-            <div className="h-[50%]">
+            <div className="h-1/2">
                 <LastNumber lastValue={lastValue} ResultIcon={ResultIcon} resetGame={resetGame} resetRound={resetRound}/>
             </div>
-            <footer className="h-[25%]">
+            <footer className="h-1/4">
                 {userList && <Footer currentUser={userList.users[getLastIndex(userList.users)]}/>}
             </footer>
         </>
