@@ -37,10 +37,12 @@ export default {
         twitch: "#6441a5"
       },
       width: {
-        30: "30%"
+        30: "30%",
+        100: "400px",
       },
       height: {
-        "5percent": "5%"
+        "5percent": "5%",
+        100: "400px"
       }
     },
   },
