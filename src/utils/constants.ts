@@ -31,7 +31,7 @@ export const minLifes = 1
 export const defaultMaxNumber = 10
 export const defaultMinNumber = 1
 export const maxNumWinners = 3
-export const appName = "Number hunt"
+export const appName = "Number hunter"
 export const jam = {
     name: "Numerica Twitch Jam",
     url: "https://itch.io/jam/numerica-twitch-jam"
