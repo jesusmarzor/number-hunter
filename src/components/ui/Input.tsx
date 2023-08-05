@@ -1,4 +1,3 @@
-import { defaultMinNumber } from "@/utils/constants"
 import { InputType } from "@/utils/enums"
 
 interface props {

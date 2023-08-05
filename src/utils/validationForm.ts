@@ -1,12 +1,11 @@
 import { FormErrors } from "@/utils/interfaces"
-import { defaultMaxNumber, defaultMinNumber, minLifes } from "./constants"
+import { defaultMinNumber, minLifes } from "./constants"
 
 export default (channel: string, lifes: number, maxNumber: number, setError: (errors: FormErrors) => void): boolean => {
     let errors: FormErrors = {}
     if(channel.length === 0) {
         errors.channel = "Escribe un canal de twitch"
     }
-    console.log(lifes)
 	if(lifes < defaultMinNumber){
 		errors.lifes = `Las vidas tienen que ser mayor que ${minLifes}`
     }
