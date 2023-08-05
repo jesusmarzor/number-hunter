@@ -26,8 +26,8 @@ export const resultsNumber: NumberResult[] = [
     }
 ]
 
-export const defaultLifes = 3
-export const minLifes = 1
+export const defaultLives = 3
+export const minLives = 1
 export const defaultMaxNumber = 10
 export const minNumber = 1
 export const maxNumWinners = 3

@@ -20,7 +20,7 @@ const useTwitch = ({ channel }: props) => {
     const [ResultIcon, setResultIcon] = useState<LucideIcon | null>(null)
     const [winnerUserList, setWinnerUserList] = useState<UserList<WinnerUser[]> | null>(null)
     const { getUsers, setUsers, removeUsers } = useLocalStorage()
-    const {lifes, maxNumber} = PropertiesConsumer()
+    const {lives, maxNumber} = PropertiesConsumer()
     const {connectClient} = ClientConsumer()
 
     const saveWinnerUser = (channel: string, username?: string) => {
@@ -50,11 +50,11 @@ const useTwitch = ({ channel }: props) => {
         let currentUser = list.users.filter( ({username: nick}) => nick === username)[0]
         if (currentUser) {
             list.users = list.users.filter(({username: nick}) => nick !== username)
-            currentUser.lifes -= 1
+            currentUser.lives -= 1
         } else {
             currentUser = {
                 username: username ?? usernameDefault,
-                lifes: lifes - 1
+                lives: lives - 1
             }
         }
         list.users.push(currentUser)
@@ -115,7 +115,7 @@ const useTwitch = ({ channel }: props) => {
         const userList = getUsers(DataType.users) as UserList<User[]>
         const lastUser = userList?.users[getLastIndex(userList.users)]
         const currentUser = userList?.users.filter( ({username}) => username === tags?.username)[0]
-        if (self || tags.username === lastUser?.username || currentUser?.lifes <= 0 || !randomNumber) return;
+        if (self || tags.username === lastUser?.username || currentUser?.lives <= 0 || !randomNumber) return;
         const newNumber = Number(message.replace(leftZeros, ''))
         if (newNumber >= minNumber && newNumber <= maxNumber) {
             const distance: number = Math.abs(randomNumber - newNumber)

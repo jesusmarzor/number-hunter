@@ -9,7 +9,7 @@ interface props {
 
 export const Header: React.FC<props> = ({channel}) => {
     const navigate = useNavigate();
-    const {lifes, maxNumber} = PropertiesConsumer()
+    const {lives, maxNumber} = PropertiesConsumer()
     return (
         <div className="flex justify-center items-center gap-2 h-full">
             <button onClick={() => navigate("/")} className="-scale-100 mr-auto">
@@ -17,7 +17,7 @@ export const Header: React.FC<props> = ({channel}) => {
             </button>
             <ul className="flex justify-center items-center gap-3">
                 <li>{minNumber} - {maxNumber}</li>
-                <li className="flex justify-center items-center gap-1"><Heart className="fill-red-default" size={15}/> {lifes}</li>
+                <li className="flex justify-center items-center gap-1"><Heart className="fill-red-default" size={15}/> {lives}</li>
                 <li className="flex justify-center items-center gap-1"><Twitch size={15} className="stroke-twitch fill-white-default"/> {channel}</li>
             </ul>
         </div>

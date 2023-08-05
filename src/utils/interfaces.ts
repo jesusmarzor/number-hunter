@@ -8,7 +8,7 @@ export interface UserList<T> {
 
 export interface User {
     username: string
-    lifes: number
+    lives: number
 }
 
 export interface WinnerUser {
@@ -23,8 +23,8 @@ export interface NumberResult {
 }
 
 export interface Properties {
-    lifes: number
-    setLifes: React.Dispatch<React.SetStateAction<number>>
+    lives: number
+    setLives: React.Dispatch<React.SetStateAction<number>>
     maxNumber: number
     setMaxNumber: React.Dispatch<React.SetStateAction<number>>
 }
@@ -36,6 +36,6 @@ export interface Client {
 
 export interface FormErrors {
     channel?: string
-    lifes?: string
+    lives?: string
     maxNumber?: string
 }

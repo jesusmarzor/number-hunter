@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom"
 const useForm = () => {
     const navigate = useNavigate()
     const [channel, setChannel] = useState("")
-    const {lifes, maxNumber} = PropertiesConsumer()
+    const {lives, maxNumber} = PropertiesConsumer()
     const [errors, setErrors] = useState<FormErrors>({})
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        validationForm(channel, lifes, maxNumber, setErrors) && navigate(channel.toLowerCase())
+        validationForm(channel, lives, maxNumber, setErrors) && navigate(channel.toLowerCase())
     }
 
     const changeNumber = (setNumber: React.Dispatch<React.SetStateAction<number>>, text: string) => {

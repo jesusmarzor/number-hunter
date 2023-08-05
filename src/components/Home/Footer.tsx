@@ -12,7 +12,7 @@ export const Footer: React.FC<props> = ({currentUser}) => {
             <p className="relative flex justify-center items-center">
                 <Heart size={40} className="fill-red-default" strokeWidth={1}/>
                 <span className="absolute top-1.5 text-white-default font-bold">
-                    {currentUser.lifes}
+                    {currentUser.lives}
                 </span>
             </p>
         </div>

@@ -7,7 +7,7 @@
             "title": "Twitch channel",
             "error": "Introduce a Twitch channel"
         },
-        "lifes": {
+        "lives": {
             "title": "Lives of the users",
             "error": "Introduce a number of lives greater than @"
         },
