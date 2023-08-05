@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Home } from "./views/Home"
-import { Login } from "./views/Login"
-import { PropertiesProvider } from "./contexts/propertiesContext"
-import { ClientProvider } from "./contexts/clientContext"
+import { Home } from "@/views/Home"
+import { Login } from "@/views/Login"
+import { PropertiesProvider } from "@/contexts/propertiesContext"
+import { ClientProvider } from "@/contexts/clientContext"
 
 const App = () => {
   return (
