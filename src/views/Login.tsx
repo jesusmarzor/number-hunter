@@ -24,15 +24,15 @@ export const Login = () => {
 
     return (
         <section className="flex flex-col justify-between items-center w-full h-full">
-            <header className="flex justify-center items-center self-start">
-                <img src={logo} className="w-12 object-cover"/>
-                <h1 className="text-4xl">{appName}</h1>
+            <header className="flex flex-col mx-auto justify-center items-center self-start">
+                <img src={logo} className="w-20 object-cover"/>
+                <h1 className="text-3xl">{appName}</h1>
             </header>
             <form className="flex flex-col gap-2 w-56" onSubmit={ e => handleSubmit(e)}>
                 <Input title="Canal de twitch" name="channel" text={channel} setText={setChannel}  error={errors.channel}/>
-                <Input type={InputType.number} title="Number of lifes to users" name="text" text={lifes} setText={(text) => changeNumber(setLifes, text)}  error={errors.lifes}/>
+                <Input type={InputType.number} title="Number of lifes to users" name="text" text={lifes} setText={(text) => changeNumber(setLifes, text)} error={errors.lifes}/>
                 <Input type={InputType.number} title="Max range number" name="text" text={maxNumber} setText={(text) => changeNumber(setMaxNumber, text)}  error={errors.maxNumber}/>
-                <button type="submit">Comenzar</button>
+                <button className="bg-blue-light-default py-1 rounded text-white-default active:scale-98 transition-transform duration-300" type="submit">Comenzar</button>
             </form>
             <footer>
                 <p>Created by <a className="text-blue-light-default border-blue-light-default hover:border-b" href={creator.url} target="_blank">{creator.nick}</a> with <Heart className="inline w-4 fill-red-default stroke-red-default"/> for <a className="text-blue-light-default border-blue-light-default hover:border-b" href={jam.url} target="_blank">{jam.name}</a></p>

@@ -18,7 +18,7 @@ export const Header: React.FC<props> = ({channel}) => {
             <ul className="flex justify-center items-center gap-3">
                 <li>{defaultMinNumber} - {maxNumber}</li>
                 <li className="flex justify-center items-center gap-1"><Heart className="fill-red-default" size={15}/> {lifes}</li>
-                <li className="flex justify-center items-center gap-1"><Twitch size={15} className="stroke-twitch" fill="white"/> {channel}</li>
+                <li className="flex justify-center items-center gap-1"><Twitch size={15} className="stroke-twitch fill-white-default"/> {channel}</li>
             </ul>
         </div>
     )
