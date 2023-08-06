@@ -5,12 +5,14 @@ import { WinnersInfo } from "@/components/Home/WinnersInfo";
 import useTwitch from "@/hooks/useTwitch"
 import getLastIndex from "@/utils/getLastIndex";
 import { useParams } from "react-router-dom";
+import Confetti from "react-confetti"
 
 export const Home = () => {
     const { channel } = useParams();
-    const {  userList, winnerUserList, lastValue, ResultIcon, resetRound, resetGame } = useTwitch({channel: `#${channel}`})
+    const {  userList, winnerUserList, lastValue, ResultIcon, resetRound, resetGame, showConfetti } = useTwitch({channel: `#${channel}`})
     return (
         <>
+            { showConfetti && <Confetti className="w-full h-full object-cover"/> }
             <header className="h-5percent">
                 <Header channel={channel}/>
             </header>

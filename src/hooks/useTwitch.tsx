@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import useLocalStorage from "@/hooks/useLocalStorage"
 import { DataType } from "@/utils/enums"
 import { User, UserList, WinnerUser } from "@/utils/interfaces"
-import { minNumber, leftZeros, resultsNumber, usernameDefault } from "@/utils/constants"
+import { minNumber, leftZeros, resultsNumber, usernameDefault, confettiDuration } from "@/utils/constants"
 import getRandomNumber from "@/utils/getRandomNumber"
 import { LucideIcon } from "lucide-react"
 import { PropertiesConsumer } from "@/contexts/propertiesContext"
@@ -22,6 +22,12 @@ const useTwitch = ({ channel }: props) => {
     const { getUsers, setUsers, removeUsers } = useLocalStorage()
     const {lives, maxNumber} = PropertiesConsumer()
     const {connectClient} = ClientConsumer()
+    const [showConfetti, setShowConfetti] = useState<boolean>(false)
+
+    const throwConfetti = () => {
+        setShowConfetti(true)
+        setTimeout( () => setShowConfetti(false), confettiDuration)
+    }
 
     const saveWinnerUser = (channel: string, username?: string) => {
         const users = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
@@ -120,6 +126,7 @@ const useTwitch = ({ channel }: props) => {
         if (newNumber >= minNumber && newNumber <= maxNumber) {
             const distance: number = Math.abs(randomNumber - newNumber)
             if (distance === 0) {
+                throwConfetti()
                 saveWinnerUser(channel, tags.username)
                 resetRound()
             } else {
@@ -132,7 +139,7 @@ const useTwitch = ({ channel }: props) => {
         }
     }
 
-    return { userList, winnerUserList, lastValue, ResultIcon, resetGame, resetRound }
+    return { userList, winnerUserList, lastValue, ResultIcon, resetGame, resetRound, showConfetti }
 }
 
 export default useTwitch

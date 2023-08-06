@@ -45,3 +45,4 @@ export const LANGUAGES: Language[] = [
     Language.ES,
     Language.EN
 ]
+export const confettiDuration = 3000
