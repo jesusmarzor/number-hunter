@@ -1,5 +1,5 @@
 import { Client } from "@/utils/interfaces"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import tmi from "tmi.js"
 
 interface ClientConfig {
@@ -10,6 +10,11 @@ interface ClientConfig {
 const useClient = (): Client => {
     const [clientConfig, setClientConfig] = useState<ClientConfig | null>(null)
 
+    const disconnectClient = useCallback(() => {
+        clientConfig?.client.disconnect()
+        setClientConfig(null)
+    }, [])
+
     useEffect( () => {
         if (clientConfig) {
             clientConfig.client.connect()
@@ -19,7 +24,7 @@ const useClient = (): Client => {
         }
     }, [clientConfig])
 
-    const connectClient = (channel: string, completion: (channel: string, tags: tmi.ChatUserstate, message: string, self: boolean)=> void) => {
+    const connectClient = useCallback((channel: string, completion: (channel: string, tags: tmi.ChatUserstate, message: string, self: boolean)=> void) => {
         disconnectClient()
         const client = tmi.client({
             channels: [channel]
@@ -28,12 +33,7 @@ const useClient = (): Client => {
             client: client,
             completion: completion
         })
-    }
-
-    const disconnectClient = () => {
-        clientConfig?.client.disconnect()
-        setClientConfig(null)
-    }
+    }, [disconnectClient])
 
     return {connectClient, disconnectClient}
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import useLocalStorage from "@/hooks/useLocalStorage"
 import { DataType } from "@/utils/enums"
 import { User, UserList, WinnerUser } from "@/utils/interfaces"
@@ -29,7 +29,19 @@ const useTwitch = ({ channel }: props) => {
         setTimeout( () => setShowConfetti(false), confettiDuration)
     }
 
-    const saveWinnerUser = (channel: string, username?: string) => {
+    const setData = useCallback((dataType: DataType, data: UserList<User[] | WinnerUser[]>) => {
+        setUsers(dataType, data)
+        switch (dataType) {
+            case DataType.users:
+                setUserList(data as UserList<User[]>)
+                break
+
+            case DataType.winnerUsers:
+                setWinnerUserList(data as UserList<WinnerUser[]>)
+        }
+    }, [setUsers])
+
+    const saveWinnerUser = useCallback((channel: string, username?: string) => {
         const users = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
         const list = users?.channel === channel ? users : {channel: channel, users: []}
         if (list.users.filter( ({username: nick}) => nick === username).length !== 0) {
@@ -48,9 +60,9 @@ const useTwitch = ({ channel }: props) => {
             )
         }
         setData(DataType.winnerUsers, list)
-    }
+    }, [getUsers, setData])
 
-    const saveCurrentUser = (channel: string, username?: string) => {
+    const saveCurrentUser = useCallback((channel: string, username?: string) => {
         const users = getUsers(DataType.users) as UserList<User[]>
         const list = users?.channel === channel ? users : {channel: channel, users: []}
         let currentUser = list.users.filter( ({username: nick}) => nick === username)[0]
@@ -65,21 +77,9 @@ const useTwitch = ({ channel }: props) => {
         }
         list.users.push(currentUser)
         setData(DataType.users, list)
-    }
+    }, [getUsers, lives, setData])
 
-    const setData = (dataType: DataType, data: UserList<User[] | WinnerUser[]>) => {
-        setUsers(dataType, data)
-        switch (dataType) {
-            case DataType.users:
-                setUserList(data as UserList<User[]>)
-                break
-
-            case DataType.winnerUsers:
-                setWinnerUserList(data as UserList<WinnerUser[]>)
-        }
-    }
-
-    const removeData = (dataType: DataType) => {
+    const removeData = useCallback((dataType: DataType) => {
         removeUsers(dataType)
         switch (dataType) {
             case DataType.users:
@@ -89,34 +89,28 @@ const useTwitch = ({ channel }: props) => {
             case DataType.winnerUsers:
                 setWinnerUserList(null)
         }
-    }
+    }, [removeUsers])
 
     const resetGame = () => {
         resetRound()
         removeData(DataType.winnerUsers)
     }
 
-    const resetRound = () => {
+    const resetRound = useCallback(() => {
         setLastValue(null)
         setResultIcon(null)
         removeData(DataType.users)
         localStorage.setItem("randomNumber", String(getRandomNumber(maxNumber)))
-    }
+    }, [maxNumber, removeData])
 
-    const loadWinners = () => {
+    const loadWinners = useCallback(() => {
         const winnerUsers = getUsers(DataType.winnerUsers) as UserList<WinnerUser[]>
         if (winnerUsers && winnerUsers.users.length !== 0 && winnerUsers.channel === channel) {
             setWinnerUserList(winnerUsers)
         }
-    }
+    }, [channel, getUsers])
 
-    useEffect(() => {
-        connectClient(channel, clientCompletion)
-        resetRound()
-        loadWinners()
-    }, [])
-
-    const clientCompletion = (channel: string, tags: tmi.ChatUserstate, message: string, self: boolean) => {
+    const clientCompletion = useCallback((channel: string, tags: tmi.ChatUserstate, message: string, self: boolean) => {
         const randomNumber = Number(localStorage.getItem("randomNumber"))
         const userList = getUsers(DataType.users) as UserList<User[]>
         const lastUser = userList?.users[getLastIndex(userList.users)]
@@ -137,7 +131,13 @@ const useTwitch = ({ channel }: props) => {
                 saveCurrentUser(channel, tags.username)
             }
         }
-    }
+    }, [getUsers, maxNumber, resetRound, saveCurrentUser, saveWinnerUser])
+
+    useEffect(() => {
+        connectClient(channel, clientCompletion)
+        resetRound()
+        loadWinners()
+    }, [channel, clientCompletion, connectClient, loadWinners, resetRound])
 
     return { userList, winnerUserList, lastValue, ResultIcon, resetGame, resetRound, showConfetti }
 }

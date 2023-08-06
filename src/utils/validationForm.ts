@@ -2,7 +2,7 @@ import { FormErrors } from "@/utils/interfaces"
 import { minNumber, minLives } from "@/utils/constants"
 
 export default (channel: string, lives: number, maxNumber: number, setError: (errors: FormErrors) => void): boolean => {
-    let errors: FormErrors = {}
+    const errors: FormErrors = {}
     if(channel.length === 0) {
         errors.channel = "form.channel.error"
     }
