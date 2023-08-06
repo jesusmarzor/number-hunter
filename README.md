@@ -39,7 +39,7 @@ Explicación del diseño y experiencia de usuario del juego.
     ![Languages](docs/languages.png)
 
 - En la pantalla de juego, nos encontramos 4 secciones en este orden:
-    - Sección de información: se encuentran el icono de volver al login e información de la partida: rango de números permitidos en el juego, vidas y nombre del canal de twitch.
+    - Sección de información: se encuentran el icono de volver al login e información de la partida: rango de números permitidos en el juego, vidas iniciales de los jugadores por cada ronda y nombre del canal de twitch.
         ![home info section](docs/homeSection1.png)
 
     - Sección de ganadores: aparecen los ganadores del juego. Máximo se muestran los 3 primeros en orden de rondas ganadas.
