@@ -16,5 +16,8 @@
             "error": "Introduce a number greather than @"
         }
     },
+    "home": {
+        "tryGame": "Do you want to give it a try?"
+    },
     "footer": "Created by <nick>{{nick}}</nick> with <icon/> for <jam>{{jam}}</jam>"
 }

@@ -16,5 +16,8 @@
             "error": "Introduce un número mayor a @"
         }
     },
+    "home": {
+        "tryGame": "¿Quieres intentarlo?"
+    },
     "footer": "Creado por <nick>{{nick}}</nick> con <icon/> para la <jam>{{jam}}</jam>"
 }
