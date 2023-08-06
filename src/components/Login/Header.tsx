@@ -11,7 +11,7 @@ export const Header = () => {
             <ul className="absolute top-1 right-1 flex justify-center items-center gap-2">
                 {
                     LANGUAGES.map( lang => (
-                        <li>
+                        <li key={lang}>
                             <Language onClick={() => changeLanguage(lang)}>{lang}</Language>
                         </li>
                     ))
