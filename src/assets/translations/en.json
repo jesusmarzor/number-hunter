@@ -9,11 +9,11 @@
         },
         "lives": {
             "title": "Lives of the users",
-            "error": "Introduce a number of lives greater than @"
+            "error": "Introduce a value of lives greater than @"
         },
         "maxNumber": {
-            "title": "Maximum random number",
-            "error": "Introduce a number greather than @"
+            "title": "Maximum random value",
+            "error": "Introduce a value greather than @"
         }
     },
     "home": {

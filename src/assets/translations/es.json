@@ -9,11 +9,11 @@
         },
         "lives": {
             "title": "Vidas de los usuarios",
-            "error": "Introduce un número de vidas mayor a @"
+            "error": "Introduce un valor de vidas mayor a @"
         },
         "maxNumber": {
-            "title": "Número máximo random",
-            "error": "Introduce un número mayor a @"
+            "title": "Valor máximo random",
+            "error": "Introduce un valor mayor a @"
         }
     },
     "home": {
