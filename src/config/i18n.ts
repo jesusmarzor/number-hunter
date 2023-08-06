@@ -2,21 +2,21 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import translation_es from "@/assets/translations/es.json";
 import translation_en from "@/assets/translations/en.json";
-import { LANGUAGES } from "@/utils/constants";
+import { Language } from "@/utils/enums";
 
 i18n
   .use(initReactI18next)
   .init({
     resources: {
-      ES: {
+      es: {
         translation: translation_es
       },
-      EN: {
+      en: {
         translation: translation_en
       }
     },
-    lng: localStorage.getItem('lang') || LANGUAGES.ES,
-    fallbackLng: LANGUAGES.ES,
+    lng: localStorage.getItem('lang') || Language.ES,
+    fallbackLng: Language.ES,
 
     interpolation: {
       escapeValue: false

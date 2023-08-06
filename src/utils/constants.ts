@@ -1,5 +1,6 @@
 import { Flame, Snowflake, Sun, SunSnow } from "lucide-react"
 import { NumberResult } from "@/utils/interfaces"
+import { Language } from "@/utils/enums"
 
 export const usernameDefault = "anonymous"
 export const leftZeros = /^0+/
@@ -40,7 +41,7 @@ export const creator = {
     nick: "@jesusmarzor",
     url: "https://jesusmarzor.vercel.app"
 }
-export const LANGUAGES = {
-    ES:"ES",
-    EN: "EN"
-}
+export const LANGUAGES: Language[] = [
+    Language.ES,
+    Language.EN
+]

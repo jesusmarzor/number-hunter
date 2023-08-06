@@ -1,8 +1,9 @@
 import { creator, jam } from "@/utils/constants";
 import { Heart } from "lucide-react";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 
 export const Footer = () => {
+    const { t } = useTranslation()
     const values = {
         nick: creator.nick,
         jam: jam.name
@@ -15,7 +16,7 @@ export const Footer = () => {
     return (
         <footer>
             <p>
-                <Trans i18nKey="footer" values={values} components={components}/>
+                <Trans t={t} i18nKey="footer" values={values} components={components}/>
             </p>
         </footer>
     )
