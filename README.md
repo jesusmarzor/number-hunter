@@ -75,7 +75,7 @@ El objetivo del juego es acertar un número generado aleatoriamente. Los jugador
 
 - Cada jugador tiene X vidas (eligidas por el streamer antes de comenzar el juego). Cada vez que el jugador escriba un número equivocado, perderá 1 vida. Cuando llegue a 0 vidas ya no podrá participar hasta que el número sea acertado y pasemos de ronda (se genere otro número).
 
-- Cada jugador solo puede escribir un número por turno. Si sigue escribiendo números, el juego solo considerará valido el primero.
+- Cada jugador solo puede escribir un número por turno. Si sigue escribiendo números, el juego solo considerará válido el primero.
 
 - El juego solo aceptará números entre el 1 y el X (elegido por el streamer antes de comenzar el juego).
 

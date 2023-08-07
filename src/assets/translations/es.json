@@ -4,8 +4,8 @@
     },
     "form": {
         "channel": {
-            "title": "Canal de twitch",
-            "error": "Introduce un canal de twitch"
+            "title": "Canal de Twitch",
+            "error": "Introduce un canal de Twitch"
         },
         "lives": {
             "title": "Vidas de los usuarios",
